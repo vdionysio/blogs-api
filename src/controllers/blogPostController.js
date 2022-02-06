@@ -50,7 +50,6 @@ const updatePost = async (req, res, next) => {
 const deletePost = async (req, res, next) => {
   try {
     const deletedPost = await service.deletePost(req.user, req.params.id);
-    // const updatedPost = await service.deletePost(req.params.id);
 
     return res.status(204).json(deletedPost);
   } catch (err) {

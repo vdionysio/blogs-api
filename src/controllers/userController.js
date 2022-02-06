@@ -3,6 +3,8 @@ const service = require('../services/userService');
 
 require('dotenv').config();
 
+const controllerErrorMessage = 'error on controller';
+
 const generateToken = (email) => {
   const payload = {
     email,
@@ -24,7 +26,7 @@ const createUser = async (req, res, next) => {
 
     return res.status(201).json({ token });
   } catch (err) {
-    console.log('error on controller', err.message);
+    console.log(controllerErrorMessage, err.message);
     return next(err);
   }
 };
@@ -38,7 +40,7 @@ const login = async (req, res, next) => {
 
     return res.status(200).json({ token });
   } catch (err) {
-    console.log('error on controller', err.message);
+    console.log(controllerErrorMessage, err.message);
     return next(err);
   }
 };
@@ -49,7 +51,7 @@ const getUsers = async (req, res, next) => {
 
     res.status(200).json(users);
   } catch (err) {
-    console.log('error on controller', err.message);
+    console.log(controllerErrorMessage, err.message);
     return next(err);
   }
 };
@@ -60,7 +62,18 @@ const getUserById = async (req, res, next) => {
 
     res.status(200).json(user);
   } catch (err) {
-    console.log('error on controller', err.message);
+    console.log(controllerErrorMessage, err.message);
+    return next(err);
+  }
+};
+
+const deleteMe = async (req, res, next) => {
+  try {
+    await service.deleteMe(req.user);
+
+    return res.status(204).send();
+  } catch (err) {
+    console.log(controllerErrorMessage, err.message);
     return next(err);
   }
 };
@@ -70,4 +83,5 @@ module.exports = {
   login,
   getUsers,
   getUserById,
+  deleteMe,
 };

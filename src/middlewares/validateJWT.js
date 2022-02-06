@@ -4,7 +4,6 @@ require('dotenv').config();
 
 module.exports = (req, res, next) => {
   const token = req.headers.authorization;
-  // const JWT_SECRET = 'SecretWord1234';
   if (!token) throw validateError(401, 'Token not found');
 
   try {

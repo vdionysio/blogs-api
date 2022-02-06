@@ -12,6 +12,7 @@ app.listen(3000, () => console.log('ouvindo porta 3000!'));
 app.use('/user', routes.user);
 app.use('/login', routes.login);
 app.use('/categories', routes.category);
+app.use('/post', routes.blogPost);
 
 // middlewares
 app.use(middlewares.error);

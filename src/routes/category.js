@@ -6,6 +6,5 @@ const router = express.Router();
 
 router.post('/', validateJWT, controller.createCategory);
 router.get('/', validateJWT, controller.getCategories);
-// router.get('/:id', validateJWT, controller.getUserById);
 
 module.exports = router;

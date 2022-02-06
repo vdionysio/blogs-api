@@ -44,6 +44,15 @@ const createPost = async (postData, { email }) => {
   return newPost;
 };
 
+const getPosts = async () => {
+  const posts = await BlogPosts.findAll({
+    include: [{ model: Users, as: 'user' }, { model: Categories, as: 'categories' }],
+  });
+
+  return posts;
+};
+
 module.exports = {
   createPost,
+  getPosts,
 };

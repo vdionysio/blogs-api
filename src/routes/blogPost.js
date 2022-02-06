@@ -5,6 +5,6 @@ const controller = require('../controllers/blogPostController');
 const router = express.Router();
 
 router.post('/', validateJWT, controller.createPost);
-// router.get('/', validateJWT, controller.getCategories);
+router.get('/', validateJWT, controller.getPosts);
 
 module.exports = router;

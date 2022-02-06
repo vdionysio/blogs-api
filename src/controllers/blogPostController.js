@@ -33,8 +33,21 @@ const getPostById = async (req, res, next) => {
   }
 };
 
+const updatePost = async (req, res, next) => {
+  try {
+    await service.updatePost(req.body, req.user, req.params.id);
+    const updatedPost = await service.getPostById(req.params.id);
+
+    return res.status(200).json(updatedPost);
+  } catch (err) {
+    console.log('error on controller', err.message);
+    return next(err);
+  }
+};
+
 module.exports = {
   createPost,
   getPosts,
   getPostById,
+  updatePost,
 };

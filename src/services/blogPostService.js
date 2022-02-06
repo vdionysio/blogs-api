@@ -1,5 +1,6 @@
 const { Users, BlogPosts, PostsCategories, Categories } = require('../models');
 const postSchema = require('../schemas/blogPostSchema');
+const updatePostSchema = require('../schemas/updatePostSchema');
 const { validateError } = require('./auxFunctions');
 
 const checkCategoryIds = async (categoryIds) => {
@@ -63,8 +64,35 @@ const getPostById = async (id) => {
   return post;
 };
 
+const updatePost = async (postData, { email }, postId) => {
+  const { title, content, categoryIds } = postData;
+
+  if (categoryIds) throw validateError(400, 'Categories cannot be edited');
+
+  const { error } = updatePostSchema.validate({ title, content });
+
+  if (error) throw validateError(400, error.message);
+
+  const { dataValues: { id: userId } } = await checkUserEmail(email);
+
+  const post = await BlogPosts.findByPk(postId);
+
+  if (userId !== post.userId) throw validateError(401, 'Unauthorized user');
+
+  await BlogPosts.update(
+    { title, content },
+    {
+      where: {
+        id: postId,
+      },
+      returning: true,
+    },
+  );
+};
+
 module.exports = {
   createPost,
   getPosts,
   getPostById,
+  updatePost,
 };

@@ -52,7 +52,19 @@ const getPosts = async () => {
   return posts;
 };
 
+const getPostById = async (id) => {
+  const post = await BlogPosts.findOne({
+    where: { id },
+    include: [{ model: Users, as: 'user' }, { model: Categories, as: 'categories' }],
+  });
+
+  if (!post) throw validateError(404, 'Post does not exist');
+
+  return post;
+};
+
 module.exports = {
   createPost,
   getPosts,
+  getPostById,
 };

@@ -77,6 +77,8 @@ const updatePost = async (postData, { email }, postId) => {
 
   const post = await BlogPosts.findByPk(postId);
 
+  if (!post) throw validateError(404, 'Post does not exist');
+
   if (userId !== post.userId) throw validateError(401, 'Unauthorized user');
 
   await BlogPosts.update(
@@ -90,9 +92,30 @@ const updatePost = async (postData, { email }, postId) => {
   );
 };
 
+const deletePost = async ({ email }, postId) => {
+  const { dataValues: { id: userId } } = await checkUserEmail(email);
+
+  const post = await BlogPosts.findByPk(postId);
+  if (!post) throw validateError(404, 'Post does not exist');
+
+  if (userId !== post.userId) throw validateError(401, 'Unauthorized user');
+
+  const deletedPost = await BlogPosts.destroy(
+    {
+      where: {
+        id: postId,
+      },
+      // returning: true,
+    },
+  );
+
+  return deletedPost;
+};
+
 module.exports = {
   createPost,
   getPosts,
   getPostById,
   updatePost,
+  deletePost,
 };

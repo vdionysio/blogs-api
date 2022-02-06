@@ -16,6 +16,14 @@ const createCategory = async (name) => {
   return newCategory;
 };
 
+const getCategories = async () => {
+  const categories = await Categories.findAll();
+
+  if (!categories) throw validateError(409, 'unknown error');
+
+  return categories;
+};
 module.exports = {
   createCategory,
+  getCategories,
 };

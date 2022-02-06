@@ -12,6 +12,18 @@ const createCategory = async (req, res, next) => {
   }
 };
 
+const getCategories = async (req, res, next) => {
+  try {
+    const categories = await service.getCategories();
+
+    res.status(200).json(categories);
+  } catch (err) {
+    console.log('error on controller', err.message);
+    return next(err);
+  }
+};
+
 module.exports = {
   createCategory,
+  getCategories,
 };

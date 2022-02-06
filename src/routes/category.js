@@ -5,7 +5,7 @@ const controller = require('../controllers/categoryController');
 const router = express.Router();
 
 router.post('/', validateJWT, controller.createCategory);
-// router.get('/', validateJWT, controller.getUsers);
+router.get('/', validateJWT, controller.getCategories);
 // router.get('/:id', validateJWT, controller.getUserById);
 
 module.exports = router;

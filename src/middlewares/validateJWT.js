@@ -8,7 +8,7 @@ module.exports = (req, res, next) => {
   if (!token) throw validateError(401, 'Token not found');
 
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    const payload = jwt.verify(token, process.env.JWT_SECRET || 'secretkey');
 
     req.user = payload;
     return next();

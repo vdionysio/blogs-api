@@ -8,7 +8,7 @@ const generateToken = (email) => {
     email,
   };
 
-  const token = jwt.sign(payload, process.env.JWT_SECRET, {
+  const token = jwt.sign(payload, process.env.JWT_SECRET || 'secretkey', {
     expiresIn: '1h',
   });
 

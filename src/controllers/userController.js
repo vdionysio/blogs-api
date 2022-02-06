@@ -54,8 +54,20 @@ const getUsers = async (req, res, next) => {
   }
 };
 
+const getUserById = async (req, res, next) => {
+  try {
+    const user = await service.getUserById(req.params.id);
+
+    res.status(200).json(user);
+  } catch (err) {
+    console.log('error on controller', err.message);
+    return next(err);
+  }
+};
+
 module.exports = {
   createUser,
   login,
   getUsers,
+  getUserById,
 };

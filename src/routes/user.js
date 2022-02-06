@@ -6,5 +6,6 @@ const router = express.Router();
 
 router.post('/', controller.createUser);
 router.get('/', validateJWT, controller.getUsers);
+router.get('/:id', validateJWT, controller.getUserById);
 
 module.exports = router;

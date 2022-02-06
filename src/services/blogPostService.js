@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { Users, BlogPosts, PostsCategories, Categories } = require('../models');
 const postSchema = require('../schemas/blogPostSchema');
 const updatePostSchema = require('../schemas/updatePostSchema');
@@ -105,11 +106,27 @@ const deletePost = async ({ email }, postId) => {
       where: {
         id: postId,
       },
-      // returning: true,
     },
   );
 
   return deletedPost;
+};
+
+const getPostsByQuery = async (query) => {
+  const posts = await BlogPosts.findAll({
+    where: {
+      [Op.or]: [
+        { title: { [Op.substring]: query } },
+        { content: { [Op.substring]: query } },
+      ],
+    },
+    include: [
+      { model: Users, as: 'user' },
+      { model: Categories, as: 'categories' },
+    ],
+  });
+
+  return posts;
 };
 
 module.exports = {
@@ -118,4 +135,5 @@ module.exports = {
   getPostById,
   updatePost,
   deletePost,
+  getPostsByQuery,
 };

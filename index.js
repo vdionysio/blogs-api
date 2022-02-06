@@ -11,6 +11,7 @@ app.listen(3000, () => console.log('ouvindo porta 3000!'));
 // routes
 app.use('/user', routes.user);
 app.use('/login', routes.login);
+app.use('/categories', routes.category);
 
 // middlewares
 app.use(middlewares.error);
